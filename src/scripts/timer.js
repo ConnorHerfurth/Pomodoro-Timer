@@ -11,14 +11,15 @@ let paused = false;
 // The last time the timer was paused
 let pausedTime;
 
+// Millisecond offset from pausing.
 let offset = 0;
 
 // Queue for the pomodoro technique
-let timerQueue = [0.5, 5, 25, 5, 25, 5, 25, 15];
+let timerQueue;
 
 function startSession() {
   // Resetting Timer Queue to its original state.
-  timerQueue = [0.5, 5, 25, 5, 25, 5, 25, 15];
+  timerQueue = [25, 5, 25, 5, 25, 5, 25, 15];
 
   // Enabling buttons
   document.getElementById('session-start').disabled = true;
