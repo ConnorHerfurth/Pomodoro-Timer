@@ -1,14 +1,14 @@
-var start;
-var refreshId;
-var running = false;
-var timer_queue = [25, 5, 25, 5, 25, 5, 25, 15]; // Queue for the pomodoro technique
+let start;
+let refreshId;
+let running = false;
+// Queue for the pomodoro technique
+const timerQueue = [25, 5, 25, 5, 25, 5, 25, 15];
 
 function timerHandler() {
-  if(!running) {
+  if (!running) {
     startTimer();
     running = true;
-  }
-  else {
+  } else {
     endTimer();
     running = false;
   }
@@ -16,35 +16,34 @@ function timerHandler() {
 
 function startTimer() {
   // Switching button to end timer
-  document.getElementById("start-button").innerHTML = "End Timer";
-  
+  document.getElementById('start-button').innerHTML = 'End Timer';
+
   start = Date.now();
 
   // Setting interval to update the timer
-  refreshId = setInterval(updateTimer, 1000);
+  refreshId = setInterval(updateTimer, 500);
+  updateTimer();
 }
 
 function endTimer() {
   clearInterval(refreshId);
 
-  document.getElementById("timer").innerHTML = null;
-  document.getElementById("start-button").innerHTML = "Start Timer";
+  document.getElementById('timer').innerHTML = null;
+  document.getElementById('start-button').innerHTML = 'Start Timer';
 }
 
 function updateTimer() {
-  let timer = document.getElementById("timer");
+  const timer = document.getElementById('timer');
 
-  let length = 30000; // 25 minutes in milliseconds
-  
-  let change = length - (Date.now() - start);
-  let minutes = Math.floor((change / 1000) / 60);
-  let seconds = Math.floor((change / 1000) % 60);
+  const length = 30000; // 25 minutes in milliseconds
 
-  if(minutes <= 0 && seconds <= 0) {
+  const change = length - (Date.now() - start);
+  const minutes = String(Math.floor((change / 1000) / 60)).padStart(2, '0');
+  const seconds = String(Math.floor((change / 1000) % 60)).padStart(2, '0');
+
+  if (minutes <= 0 && seconds <= 0) {
     endTimer();
-  }
-  else {
-    let output = String(minutes).padStart(2, '0') + ":" + String(seconds).padStart(2, '0');
-    timer.innerHTML = output;
+  } else {
+    timer.innerHTML = minutes + ':' + seconds;
   }
 }
