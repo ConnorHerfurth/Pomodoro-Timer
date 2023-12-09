@@ -44,7 +44,9 @@
 			<h1>Welcome</h1>
 			<p>Begin your focus journey below...</p>
 		</div>
-		<button class="timer-start bg-dark" id="start-button" onclick="timerHandler()">Start Timer</button>
+		<button class="bg-dark timer-button" id="session-start" onclick="startSession()">Start Session</button>
+		<button class="bg-dark timer-button" id="start-button" onclick="timerHandler()" disabled>Pause Timer</button>
+		<button class="bg-dark timer-button" id="session-end" onclick="endSession()" disabled>End Session</button>
 		<div class="timer-div">
 			<h1 id="timer"></h1>
 		</div>

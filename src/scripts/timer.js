@@ -1,22 +1,59 @@
+// Current start time for the timer
 let start;
+// The ID of the refresh interval
 let refreshId;
-let running = false;
+
+// Whether the timer has been started
+let started = false;
+// Whether the timer has been paused
+let paused = false;
+
+// The last time the timer was paused
+let pausedTime;
+
+let offset = 0;
+
 // Queue for the pomodoro technique
-const timerQueue = [25, 5, 25, 5, 25, 5, 25, 15];
+let timerQueue = [0.5, 5, 25, 5, 25, 5, 25, 15];
+
+function startSession() {
+  // Resetting Timer Queue to its original state.
+  timerQueue = [0.5, 5, 25, 5, 25, 5, 25, 15];
+
+  // Enabling buttons
+  document.getElementById('session-start').disabled = true;
+  document.getElementById('start-button').disabled = false;
+  document.getElementById('session-end').disabled = false;
+
+  timerHandler();
+}
+
+function endSession() {
+  endTimer(false);
+
+  document.getElementById('session-start').disabled = false;
+  document.getElementById('start-button').disabled = true;
+  document.getElementById('session-end').disabled = true;
+}
 
 function timerHandler() {
-  if (!running) {
+  if (!started) {
     startTimer();
-    running = true;
+    started = true;
   } else {
-    endTimer();
-    running = false;
+    if (paused) {
+      resumeTimer();
+      paused = false;
+    } else {
+      pauseTimer();
+      paused = true;
+    }
   }
 }
 
 function startTimer() {
   // Switching button to end timer
-  document.getElementById('start-button').innerHTML = 'End Timer';
+  document.getElementById('start-button').innerHTML = 'Pause Timer';
 
   start = Date.now();
 
@@ -25,24 +62,54 @@ function startTimer() {
   updateTimer();
 }
 
-function endTimer() {
+function pauseTimer() {
+  document.getElementById('start-button').innerHTML = 'Resume Timer';
+
+  clearInterval(refreshId);
+
+  pausedTime = Date.now();
+}
+
+function resumeTimer() {
+  offset += pausedTime - Date.now();
+
+  refreshId = setInterval(updateTimer, 500);
+  updateTimer();
+
+  document.getElementById('start-button').innerHTML = 'Pause Timer';
+}
+
+function endTimer(ongoing) {
   clearInterval(refreshId);
 
   document.getElementById('timer').innerHTML = null;
-  document.getElementById('start-button').innerHTML = 'Start Timer';
+  document.getElementById('start-button').innerHTML = 'Pause Timer';
+
+  offset = 0;
+  started = false;
+  paused = false;
+
+  if(ongoing) {
+    // Updating the queue
+    var i = timerQueue.shift();
+    timerQueue.push(i);
+
+    startTimer();
+    started = true;
+  }
 }
 
 function updateTimer() {
   const timer = document.getElementById('timer');
 
-  const length = 30000; // 25 minutes in milliseconds
+  const millisecondsOnTimer = timerQueue[0] * 1000 * 60 - offset;
 
-  const change = length - (Date.now() - start);
+  const change = millisecondsOnTimer - (Date.now() - start);
   const minutes = String(Math.floor((change / 1000) / 60)).padStart(2, '0');
   const seconds = String(Math.floor((change / 1000) % 60)).padStart(2, '0');
 
   if (minutes <= 0 && seconds <= 0) {
-    endTimer();
+    endTimer(true);
   } else {
     timer.innerHTML = minutes + ':' + seconds;
   }
