@@ -1,18 +1,18 @@
-const { app, BrowserWindow } = require('electron')
+const {app, BrowserWindow} = require('electron');
 
 const createwindow = () => {
-    const win = new BrowserWindow({
-        width: 400,
-        height: 1000
-    })
+  const win = new BrowserWindow({
+    width: 400,
+    height: 1000,
+  });
 
-    win.loadFile('index.html')
-}
+  win.loadFile('index.html');
+};
 
 app.whenReady().then(() => {
-    createwindow();
-})
+  createwindow();
+});
 
 app.on('window-all-closed', () => {
-    app.quit()
-})
+  app.quit();
+});

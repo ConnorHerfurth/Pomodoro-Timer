@@ -1,0 +1,37 @@
+.navbar {
+    position: relative;
+}
+
+.navbar-brand {
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    display: block;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.options a p {
+    padding: 50px;
+}
+
+.timer-start {
+    color: white;
+    border-style: 2px solid rgba(0,0,0,0);
+    box-shadow: none;
+    border-radius: 8px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+body {
+    background-color: #555555;
+    text-align: center;
+    color: white;
+}
