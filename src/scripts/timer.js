@@ -61,6 +61,22 @@ function startTimer() {
   // Setting interval to update the timer
   refreshId = setInterval(updateTimer, 500);
   updateTimer();
+
+  // Sends notifications based off of what the current timer is,
+  // which tells us where in the Pomodoro we are.
+  switch (timerQueue[0]) {
+    case 25:
+      new Notification('Time to Work!', {body: 'Let\'s get focused!'});
+      break;
+    case 5:
+      new Notification('Time for a break!',
+          {body: 'You\'ve focused enough, now let\'s take a short break.'});
+      break;
+    case 15:
+      new Notification('Time for a long break!',
+          {body: 'You\'ve gotten a lot done, now relax for a while!'});
+      break;
+  }
 }
 
 function pauseTimer() {
@@ -90,9 +106,9 @@ function endTimer(ongoing) {
   started = false;
   paused = false;
 
-  if(ongoing) {
+  if (ongoing) {
     // Updating the queue
-    var i = timerQueue.shift();
+    const i = timerQueue.shift();
     timerQueue.push(i);
 
     startTimer();
