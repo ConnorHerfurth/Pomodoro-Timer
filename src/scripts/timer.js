@@ -66,17 +66,27 @@ function startTimer() {
   // which tells us where in the Pomodoro we are.
   switch (timerQueue[0]) {
     case 25:
-      new Notification('Time to Work!', {body: 'Let\'s get focused!'});
+      new Notification('Time to Work!', {body: 'Let\'s get focused!',
+        silent: true});
+      playNotificationSound();
       break;
     case 5:
       new Notification('Time for a break!',
-          {body: 'You\'ve focused enough, now let\'s take a short break.'});
+          {body: 'You\'ve focused enough, now let\'s take a short break.',
+            silent: true});
+      playNotificationSound();
       break;
     case 15:
       new Notification('Time for a long break!',
-          {body: 'You\'ve gotten a lot done, now relax for a while!'});
+          {body: 'You\'ve gotten a lot done, now relax for a while!',
+            silent: true});
+      playNotificationSound();
       break;
   }
+}
+
+async function playNotificationSound() {
+  window.electronAPI.playNotificationSound();
 }
 
 function pauseTimer() {
