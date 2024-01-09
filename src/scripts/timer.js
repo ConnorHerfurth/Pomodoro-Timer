@@ -26,11 +26,15 @@ function startSession() {
   document.getElementById('start-button').disabled = false;
   document.getElementById('session-end').disabled = false;
 
+  startSessionTracking();
+
   timerHandler();
 }
 
 function endSession() {
   endTimer(false);
+
+  endSessionTracking();
 
   document.getElementById('session-start').disabled = false;
   document.getElementById('start-button').disabled = true;
@@ -87,6 +91,14 @@ function startTimer() {
 
 async function playNotificationSound() {
   window.electronAPI.playNotificationSound();
+}
+
+async function startSessionTracking() {
+  window.electronAPI.startSessionTracking();
+}
+
+async function endSessionTracking() {
+  window.electronAPI.endSessionTracking();
 }
 
 function pauseTimer() {

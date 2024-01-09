@@ -1,6 +1,10 @@
 const {contextBridge, ipcRenderer} = require('electron/renderer');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  playNotificationSound: (title) =>
-    ipcRenderer.send('play-notification-sound', title),
+  playNotificationSound: () =>
+    ipcRenderer.send('play-notification-sound'),
+  startSessionTracking: () => 
+    ipcRenderer.send('start-session-tracking'),
+  endSessionTracking: () => 
+    ipcRenderer.send('end-session-tracking'),
 });
