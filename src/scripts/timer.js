@@ -73,18 +73,21 @@ function startTimer() {
       new Notification('Time to Work!', {body: 'Let\'s get focused!',
         silent: true});
       playNotificationSound();
+      addSessionFocusTimer();
       break;
     case 5:
       new Notification('Time for a break!',
           {body: 'You\'ve focused enough, now let\'s take a short break.',
             silent: true});
       playNotificationSound();
+      addSessionBreakTimer();
       break;
     case 15:
       new Notification('Time for a long break!',
           {body: 'You\'ve gotten a lot done, now relax for a while!',
             silent: true});
       playNotificationSound();
+      addSessionLongBreakTimer();
       break;
   }
 }
@@ -95,6 +98,18 @@ async function playNotificationSound() {
 
 async function startSessionTracking() {
   window.electronAPI.startSessionTracking();
+}
+
+async function addSessionFocusTimer() {
+  window.electronAPI.addSessionFocusTimer();
+}
+
+async function addSessionBreakTimer() {
+  window.electronAPI.addSessionBreakTimer();
+}
+
+async function addSessionLongBreakTimer() {
+  window.electronAPI.addSessionLongBreakTimer();
 }
 
 async function endSessionTracking() {
