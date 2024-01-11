@@ -1,6 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('node:path');
 const sound = require('sound-play');
+const fs = require('fs');
 
 // TODO: Make it so that sessions can be stored and loaded to allow data
 // to be perpetual.
@@ -31,8 +32,13 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  saveSessionData();
   app.quit();
 });
+
+function saveSessionData() {
+  var sessionFile = fs.writeFileSync('./sessionData.json', JSON.stringify(sessionData));
+}
 
 ipcMain.on('play-notification-sound', (event) => {
   sound.play(path.join(__dirname, 'src', 'assets', 'DefaultAlarm.mp3'));
@@ -50,7 +56,7 @@ ipcMain.on('start-session-tracking', (event) => {
   // Sets end time to null value so that, when session ends, the key
   // exists and the end time can be set.
   currentSession = new Date();
-  sessionData[currentSession] = {};
+  sessionData[currentSession] = {'focusTimers': 0, 'breakTimers': 0, 'longBreakTimers': 0, 'endTime': null};
 });
 
 // Adds one to the number of focus timers in this current session.
@@ -98,6 +104,4 @@ ipcMain.on('end-session-tracking', (event) => {
   }
 
   sessionData[currentSession]['endTime'] = new Date();
-
-  console.log(sessionData);
 });
