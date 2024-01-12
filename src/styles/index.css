@@ -35,3 +35,11 @@ body {
     text-align: center;
     color: white;
 }
+
+.lifetime-stats {
+    text-align: left;
+}
+
+.last-session {
+    text-align: left;
+}
