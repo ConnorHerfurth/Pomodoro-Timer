@@ -28,6 +28,7 @@ const createwindow = () => {
 };
 
 app.whenReady().then(() => {
+  loadSessionData();
   createwindow();
 });
 
@@ -36,8 +37,22 @@ app.on('window-all-closed', () => {
   app.quit();
 });
 
+function loadSessionData() {
+  try {
+    const fileData = fs.readFileSync('./sessionData.json').toString();
+    sessionData = JSON.parse(fileData);
+    console.log(`Loaded session data with ${Object.keys(sessionData).length} sessions.`);
+  } catch {
+    console.log("No existing session data, assuming empty.");
+  }
+}
+
 function saveSessionData() {
-  var sessionFile = fs.writeFileSync('./sessionData.json', JSON.stringify(sessionData));
+  try {
+    var sessionFile = fs.writeFileSync('./sessionData.json', JSON.stringify(sessionData));
+  } catch (err) {
+    console.log(`Failed to save session data with err: ${err}`);
+  }
 }
 
 ipcMain.on('play-notification-sound', (event) => {
