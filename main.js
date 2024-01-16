@@ -30,6 +30,7 @@ const createwindow = () => {
 app.whenReady().then(() => {
   loadSessionData();
   createwindow();
+  getFocusTimerCount();
 });
 
 app.on('window-all-closed', () => {
@@ -53,6 +54,39 @@ function saveSessionData() {
   } catch (err) {
     console.log(`Failed to save session data with err: ${err}`);
   }
+}
+
+function getFocusTimerCount() {
+  cumulative = 0;
+  Object.keys(sessionData).forEach(function(session) {
+    if('focusTimers' in sessionData[session]) {
+      cumulative += sessionData[session]['focusTimers'];
+    }
+  })
+
+  return cumulative;
+}
+
+function getBreakTimerCount() {
+  cumulative = 0;
+  Object.keys(sessionData).forEach(function(session) {
+    if('breakTimers' in sessionData[session]) {
+      cumulative += sessionData[session]['breakTimers'];
+    }
+  })
+
+  return cumulative;
+}
+
+function getLongBreakTimerCount() {
+  cumulative = 0;
+  Object.keys(sessionData).forEach(function(session) {
+    if('longBreakTimers' in sessionData[session]) {
+      cumulative += sessionData[session]['longBreakTimers'];
+    }
+  })
+
+  return cumulative;
 }
 
 ipcMain.on('play-notification-sound', (event) => {
@@ -111,12 +145,10 @@ ipcMain.on('add-session-long-break-timer', (event) => {
   } else {
     sessionData[currentSession]['longBreakTimers'] = sessionData[currentSession]['longBreakTimers'] + 1;
   }
-})
+});
 
-ipcMain.on('end-session-tracking', (event) => {
-  if(currentSession === null) {
-    return;
-  }
-
-  sessionData[currentSession]['endTime'] = new Date();
+ipcMain.on('get-cumulative-session-data', (event) => {
+  return {'focusTimers': getFocusTimerCount(),
+          'breakTimers': getBreakTimerCount(),
+          'longBreakTimers': getLongBreakTimerCount()};
 });
