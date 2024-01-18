@@ -147,7 +147,7 @@ ipcMain.on('add-session-long-break-timer', (event) => {
   }
 });
 
-ipcMain.on('get-cumulative-session-data', (event) => {
+ipcMain.handle('get-cumulative-session-data', (event) => {
   return {'focusTimers': getFocusTimerCount(),
           'breakTimers': getBreakTimerCount(),
           'longBreakTimers': getLongBreakTimerCount()};

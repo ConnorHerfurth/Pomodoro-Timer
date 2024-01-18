@@ -13,4 +13,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('add-session-long-break-timer'),
   endSessionTracking: () => 
     ipcRenderer.send('end-session-tracking'),
+  getCumulativeSessionData: () => 
+    ipcRenderer.invoke('get-cumulative-session-data'),
 });
