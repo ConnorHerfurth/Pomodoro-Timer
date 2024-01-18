@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="./styles/index.css">
     
         <!-- Scripts -->
-        <script type="text/javascript" src="./scripts/timer.js"></script>
+        <script type="text/javascript" src="./scripts/data.js"></script>
     
         <!-- Miscellaneous -->
     </head>
@@ -43,10 +43,10 @@
         </div>
         <div class="lifetime-stats">
             <h4>Lifetime Stats:</h1>
-            <h5>Focus Sessions: </h3>
-            <h5>Breaks: </h3>
-            <h5>Long Breaks: </h3>
-            <h5>TOTAL FOCUSED TIME: </h2>
+            <h5>Focus Sessions: <span id="cumulativeFocus"></span></h5>
+            <h5>Breaks: <span id="cumulativeBreaks"></span></h5>
+            <h5>Long Breaks: <span  id="cumulativeLongBreaks"></span></h5>
+            <h5>TOTAL FOCUSED TIME: </h5>
         </div>
         <br>
         <div class="last-session">
