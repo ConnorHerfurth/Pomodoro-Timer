@@ -152,3 +152,13 @@ ipcMain.handle('get-cumulative-session-data', (event) => {
           'breakTimers': getBreakTimerCount(),
           'longBreakTimers': getLongBreakTimerCount()};
 });
+
+ipcMain.handle('get-current-session-data', (event) => {
+  if(currentSession == null) {
+    return;
+  }
+
+  return {'focusTimers': sessionData[currentSession]['focusTimers'],
+          'breakTimers': sessionData[currentSession]['breakTimers'],
+          'longBreakTimres': sessionData[currentSession]['longBreakTimers']};
+});
